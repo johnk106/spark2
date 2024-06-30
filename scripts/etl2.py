@@ -19,7 +19,7 @@ def load_csv(file_path):
 tenants_df = load_csv("../input/2024-06-28_23-47_Tenants.csv")
 identificationtypes_df = load_csv("../input/2024-06-28_23-47_IdentificationTypes.csv")
 apartments_df = load_csv("../input/2024-06-28_23-47_Apartments.csv")
-buildings_df = load_csv("../input/2024-06-28_23-47_Buildings.csv")
+buildings_df = load_csv("../input/2024-06-28_23-47_buildings.csv")
 apartment_types_df = load_csv("../input/2024-06-28_23-47_ApartmentTypes.csv")
 exits_df = load_csv("../input/2024-06-28_23-47_Exits.csv")
 invoices_df = load_csv("../input/2024-06-28_23-47_Invoices.csv")
