@@ -5,10 +5,9 @@ import os
 
 # Initialize Spark session with additional configurations
 spark = SparkSession.builder \
-    .appName('RealEstateETL') \
-    .config("spark.hadoop.fs.defaultFS", "file:///") \
-    .config("spark.hadoop.fs.file.impl", "org.apache.hadoop.fs.LocalFileSystem") \
-    .config("spark.hadoop.fs.file.impl.disable.cache", "true") \
+    .appName("RedshiftETL") \
+    .config("spark.driver.extraClassPath", "/home/ubuntu/env/jars/redshift-jdbc42-2.1.0.29.jar") \
+    .config("spark.executor.extraClassPath", "/home/ubuntu/env/jars/redshift-jdbc42-2.1.0.29.jar") \
     .getOrCreate()
 
 # Function to load CSV files
