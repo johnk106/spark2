@@ -2,12 +2,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, to_date
 import os
 
-# Example directory where Spark should write output
-output_path = "../output/"
-
-# Check directory permissions
-if not os.access(output_path, os.W_OK):
-    raise PermissionError(f"Output directory '{output_path}' is not writable.")
 
 # Initialize Spark session with additional configurations
 spark = SparkSession.builder \
