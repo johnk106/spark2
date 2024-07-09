@@ -2,7 +2,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, to_date
 import os
 
-
 # Initialize Spark session with additional configurations
 spark = SparkSession.builder \
     .appName("RedshiftETL") \
@@ -10,22 +9,30 @@ spark = SparkSession.builder \
     .config("spark.executor.extraClassPath", "/home/ubuntu/env/jars/redshift-jdbc42-2.1.0.29.jar") \
     .getOrCreate()
 
-# Function to load CSV files
-def load_csv(file_path):
+# Get today's date in the required format
+today_date = datetime.datetime.today().strftime('%Y-%m-%d')
+
+# Define the S3 bucket and folder path
+bucket_name = "raw-estate-data"
+folder_path = f"s3a://{bucket_name}/{today_date}"
+
+# Define a function to load CSV files from S3
+def load_csv_from_s3(file_name):
+    file_path = f"{folder_path}/{file_name}"
     return spark.read.option("header", "true").csv(file_path)
 
 # Load CSV files into DataFrames
-tenants_df = load_csv("../input/2024-06-28_23-47_Tenants.csv")
-identificationtypes_df = load_csv("../input/2024-06-28_23-47_IdentificationTypes.csv")
-apartments_df = load_csv("../input/2024-06-28_23-47_Apartments.csv")
-buildings_df = load_csv("../input/2024-06-28_23-47_buildings.csv")
-apartment_types_df = load_csv("../input/2024-06-28_23-47_ApartmentTypes.csv")
-exits_df = load_csv("../input/2024-06-28_23-47_Exits.csv")
-invoices_df = load_csv("../input/2024-06-28_23-47_Invoices.csv")
-invoice_items_df = load_csv("../input/2024-06-28_23-47_InvoiceItems.csv")
-receipts_df = load_csv("../input/2024-06-28_23-47_Receipts.csv")
-tenancy_documents_df = load_csv("../input/2024-06-28_23-47_TenancyDocuments.csv")
-utilitybills_df = load_csv("../input/2024-06-28_23-47_UtilityBills.csv")
+tenants_df = load_csv_from_s3("tenants.csv")
+identificationtypes_df = load_csv_from_s3("identificationtypes.csv")
+apartments_df = load_csv_from_s3("apartments.csv")
+buildings_df = load_csv_from_s3("buildings.csv")
+apartment_types_df = load_csv_from_s3("apartmenttypes.csv")
+exits_df = load_csv_from_s3("exits.csv")
+invoices_df = load_csv_from_s3("invoices.csv")
+invoice_items_df = load_csv_from_s3("invoiceitems.csv")
+receipts_df = load_csv_from_s3("receipts.csv")
+tenancy_documents_df = load_csv_from_s3("tenancydocuments.csv")
+utilitybills_df = load_csv_from_s3("utilitybills.csv")
 
 # Rename columns to avoid ambiguity
 tenants_df = tenants_df.withColumnRenamed("Id", "tenant_Id")
